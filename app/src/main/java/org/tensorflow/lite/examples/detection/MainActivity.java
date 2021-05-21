@@ -1,8 +1,5 @@
 package org.tensorflow.lite.examples.detection;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,11 +9,11 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.tensorflow.lite.examples.detection.customview.OverlayView;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
@@ -43,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         detectButton = findViewById(R.id.detectButton);
         imageView = findViewById(R.id.imageView);
 
+        findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorPictureActivity.class)));
+
         cameraButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorActivity.class)));
 
         detectButton.setOnClickListener(v -> {
@@ -50,12 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
             new Thread(() -> {
                 final List<Classifier.Recognition> results = detector.recognizeImage(cropBitmap);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        handleResult(cropBitmap, results);
-                    }
-                });
+                handler.post(() -> handleResult(cropBitmap, results));
             }).start();
 
         });
