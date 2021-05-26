@@ -4,7 +4,6 @@
     <uses-sdk />
 
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -28,6 +27,19 @@
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait">
 
+        </activity>
+
+        <activity
+            android:name=".DetectUploadPictureActivity"
+            android:label="@string/tfe_od_app_name"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".ShowUploadsActivity"
+            android:label="@string/tfe_od_app_name"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".MainActivity">

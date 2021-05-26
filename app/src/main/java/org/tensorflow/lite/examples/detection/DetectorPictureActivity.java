@@ -41,9 +41,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import org.tensorflow.lite.support.image.TensorImage;
+/*import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.task.vision.detector.Detection;
-import org.tensorflow.lite.task.vision.detector.ObjectDetector;
+import org.tensorflow.lite.task.vision.detector.ObjectDetector;*/
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class DetectorPictureActivity extends AppCompatActivity {
     }
 
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PHOTO_REQUEST && resultCode == RESULT_OK) {
@@ -136,7 +136,7 @@ public class DetectorPictureActivity extends AppCompatActivity {
                 Toast.makeText(this, "Errrorr ", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     static class DetectionResult {
         public RectF boundingBox;

@@ -7,13 +7,17 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Bundle;
+import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.tensorflow.lite.examples.detection.customview.OverlayView;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
@@ -27,27 +31,36 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class DetectUploadPictureActivity extends AppCompatActivity {
 
-    public static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+    private EditText imageDetailsET;
+    private ImageView objectImageView;
+    private Button detectDigits;
 
+    private static final int PICK_IMAGE_REQUEST=100;
+    private Uri imageFilePath;
+
+    private Bitmap imageToStore;
+    DatabaseHandler objectDatabaseHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detect_upload_picture);
+        try
+        {
+            imageDetailsET=findViewById(R.id.imageNameET);
+            objectImageView=findViewById(R.id.image);
 
-        cameraButton = findViewById(R.id.cameraButton);
-        detectButton = findViewById(R.id.detectButton);
-        imageView = findViewById(R.id.imageView);
+            objectDatabaseHandler=new DatabaseHandler(this);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
-        findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorPictureActivity.class)));
-        findViewById(R.id.show_uploads).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ShowUploadsActivity.class)));
-        findViewById(R.id.Static_detect).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectUploadPictureActivity.class)));
+        detectDigits = findViewById(R.id.detectDigits);
 
-        cameraButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorActivity.class)));
-
-
-       detectButton.setOnClickListener(v -> {
+        detectDigits.setOnClickListener(v -> {
             Handler handler = new Handler();
 
             new Thread(() -> {
@@ -56,14 +69,80 @@ public class MainActivity extends AppCompatActivity {
             }).start();
 
         });
-        this.sourceBitmap = Utils.getBitmapFromAsset(MainActivity.this, "compteur.jpg");
+        //this.sourceBitmap = Utils.getBitmapFromAsset(DetectUploadPictureActivity.this, "Kite.jpg");
 
-        this.cropBitmap = Utils.processBitmap(sourceBitmap, TF_OD_API_INPUT_SIZE);
+        //this.cropBitmap = Utils.processBitmap(sourceBitmap, TF_OD_API_INPUT_SIZE);
 
-        this.imageView.setImageBitmap(cropBitmap);
+        //this.imageView.setImageBitmap(cropBitmap);
 
-        initBox();
+        //initBox();
     }
+
+
+    public void chooseImage(View objectView)
+    {
+        try
+        {
+            Intent objectIntent=new Intent();
+            objectIntent.setType("image/*");
+
+            objectIntent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(objectIntent,PICK_IMAGE_REQUEST);
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode==PICK_IMAGE_REQUEST && resultCode==RESULT_OK && data!=null && data.getData()!=null)
+            {
+                imageFilePath=data.getData();
+                imageToStore= MediaStore.Images.Media.getBitmap(getContentResolver(),imageFilePath);
+
+                objectImageView.setImageBitmap(imageToStore);
+            }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void storeImage(View view)
+    {
+        try
+        {
+            if(!imageDetailsET.getText().toString().isEmpty() && objectImageView.getDrawable()!=null && imageToStore!=null)
+            {
+                objectDatabaseHandler.storeImage(new ModelClass(imageDetailsET.getText().toString(),imageToStore));
+            }
+            else
+            {
+                Toast.makeText(this, "Please select image name and image", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public void moveToShowActivity(View view)
+    {
+        startActivity(new Intent(this,ShowUploadsActivity.class));
+    }
+
+    public static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
 
     private static final Logger LOGGER = new Logger();
 
@@ -118,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             detector =
                     YoloV4Classifier.create(
                             getAssets(),
-                           TF_OD_API_MODEL_FILE,
+                            TF_OD_API_MODEL_FILE,
                             TF_OD_API_LABELS_FILE,
                             TF_OD_API_IS_QUANTIZED);
         } catch (final IOException e) {
@@ -156,5 +235,8 @@ public class MainActivity extends AppCompatActivity {
 //        trackingOverlay.postInvalidate();
         imageView.setImageBitmap(bitmap);
     }
+
+
+
 
 }

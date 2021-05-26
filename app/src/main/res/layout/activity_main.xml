@@ -11,61 +11,65 @@
         android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Camera"
+        android:text="real_time_detection"
         app:layout_constraintBottom_toBottomOf="@+id/detectButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintHorizontal_bias="0.753"
         app:layout_constraintStart_toEndOf="@+id/detectButton"
         app:layout_constraintTop_toTopOf="@+id/detectButton"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/take_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Take Picture"
-        app:layout_constraintEnd_toStartOf="@+id/cameraButton"
-        app:layout_constraintStart_toEndOf="@+id/detectButton"
-        app:layout_constraintTop_toBottomOf="@+id/detectButton" />
+        android:layout_marginTop="56dp"
+        android:text="Take_Picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/show_uploads"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detectButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/detectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="64dp"
         android:layout_marginBottom="126dp"
-        android:text="Detect"
+        android:text="detect"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/show_uploads"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/detectButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="68dp"
-        android:text="Upload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.217"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/detectButton"
-        app:layout_constraintVertical_bias="0.877" />
-
-    <Button
-        android:id="@+id/detectButton3"
+        android:id="@+id/show_uploads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="84dp"
-        android:text="Uploads"
+        android:text="show_uploads"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintHorizontal_bias="0.931"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cameraButton"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/Static_detect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="116dp"
+        android:text="Static_detect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/show_uploads"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/take_picture"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.977" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -76,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/kite" />
+        tools:srcCompat="@drawable/yebni_logo" />
 
     <org.tensorflow.lite.examples.detection.customview.OverlayView
         android:id="@+id/tracking_overlay"
