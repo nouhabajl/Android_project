@@ -58,7 +58,7 @@ public class DetectUploadPictureActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        detectDigits = findViewById(R.id.detectDigits);
+        /*detectDigits = findViewById(R.id.detectDigits);
 
         detectDigits.setOnClickListener(v -> {
             Handler handler = new Handler();
@@ -69,13 +69,13 @@ public class DetectUploadPictureActivity extends AppCompatActivity {
             }).start();
 
         });
-        //this.sourceBitmap = Utils.getBitmapFromAsset(DetectUploadPictureActivity.this, "Kite.jpg");
+        this.sourceBitmap = Utils.getBitmapFromAsset(DetectUploadPictureActivity.this, "Kite.jpg");
 
-        //this.cropBitmap = Utils.processBitmap(sourceBitmap, TF_OD_API_INPUT_SIZE);
+        this.cropBitmap = Utils.processBitmap(sourceBitmap, TF_OD_API_INPUT_SIZE);
 
-        //this.imageView.setImageBitmap(cropBitmap);
+        this.imageView.setImageBitmap(cropBitmap);
 
-        //initBox();
+        initBox();*/
     }
 
 
