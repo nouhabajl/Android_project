@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.examples.detection.MainActivity;
+import org.tensorflow.lite.examples.detection.MainActivity1;
 import org.tensorflow.lite.examples.detection.env.Logger;
 import org.tensorflow.lite.examples.detection.env.Utils;
 
@@ -150,7 +151,7 @@ public class YoloV4Classifier implements Classifier {
 
     @Override
     public float getObjThresh() {
-        return MainActivity.MINIMUM_CONFIDENCE_TF_OD_API;
+        return MainActivity1.MINIMUM_CONFIDENCE_TF_OD_API;
     }
 
     private static final Logger LOGGER = new Logger();

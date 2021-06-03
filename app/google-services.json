@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448052790213",
+    "project_id": "pfe-final-project-yebni",
+    "storage_bucket": "pfe-final-project-yebni.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448052790213:android:9e770ea243aacd56a241ac",
+        "android_client_info": {
+          "package_name": "org.tensorflow.lite.examples.detection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448052790213-8n56h91esgnat9prkgk8kq0r79dnni1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIbFdBKdBLXSIzop8SHmqI52vGwzCiHAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448052790213-8n56h91esgnat9prkgk8kq0r79dnni1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

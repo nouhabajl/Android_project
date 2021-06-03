@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'de.undercouch.download'
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "org.tensorflow.lite.examples.detection"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -45,9 +46,9 @@ apply from: 'download_model.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    //implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    //implementation 'com.google.android.material:material:1.1.0'
 //    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
 //    implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite:2.2.0'
@@ -56,9 +57,29 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.1.0'
 //    implementation 'org.tensorflow:tensorflow-lite:0.0.0-gpu-experimental'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.code.gson:gson:2.8.6'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.google.truth:truth:1.0.1'
+
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    implementation 'com.google.firebase:firebase-database:19.7.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.4'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    //noinspection OutdatedLibrary
+    implementation 'com.google.firebase:firebase-ml-vision:15.0.0'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
 }
