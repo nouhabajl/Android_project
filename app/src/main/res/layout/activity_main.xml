@@ -1,23 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:ignore="ExtraText">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="33dp"
+        android:background="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:text="YEBNI"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/logout"
+        android:clickable="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        />
+    <View
+        android:id="@+id/wave"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:background="@drawable/ic_wave__1_"
+        android:layout_marginTop="60dp"
+        />
 
 
     <Button
-        android:id="@+id/GoBack"
+        android:id="@+id/cameraButton"
+        android:layout_width="221dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="154dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:text="real_time_detection"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <Button
+        android:id="@+id/take_picture"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="go back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="228dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="62dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:text="Take_Picture"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
 
+    <Button
+        android:id="@+id/detectButton"
+        android:layout_width="154dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="155dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:drawableBottom="@drawable/round"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:text="static_Detect"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/detectButton3"
+        android:layout_width="165dp"
+        android:layout_height="27dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="61dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:drawableBottom="@drawable/round"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:text="show_Uploads"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="239dp"
+        android:layout_height="259dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="224dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="248dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/yebni_logo"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="202dp" />
+
+    <org.tensorflow.lite.examples.detection.customview.OverlayView
+        android:id="@+id/tracking_overlay"
+        android:layout_width="416dp"
+        android:visibility="gone"
+        android:layout_height="416dp"/>
+
+</RelativeLayout>

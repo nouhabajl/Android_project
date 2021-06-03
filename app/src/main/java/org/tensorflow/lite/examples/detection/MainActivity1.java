@@ -1,7 +1,5 @@
 package org.tensorflow.lite.examples.detection;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,11 +7,14 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.tensorflow.lite.examples.detection.customview.OverlayView;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
@@ -27,35 +28,127 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity1 extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
+//import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity1 extends AppCompatActivity implements View.OnClickListener{
     public static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+    public  String name, number;
+    public  int ocrRead;
+    public Bitmap imageBitmap;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    @BindView(R.id.register) Button mRegisterMeterButton;
+    @BindView(R.id.customerName) EditText mCustomerName;
+    @BindView(R.id.customerNumber) EditText mCustomerNumber;
+    @BindView(R.id.ocr) TextView capturedText;
+    @BindView(R.id.detect) Button Detect;
+    @BindView(R.id.imageView) ImageView imageView;
+    @BindView(R.id.take_picture)Button pictureBtn;
+    @BindView(R.id.logout) ImageView logout;
+    @BindView(R.id.crop) Button cropBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
+        ButterKnife.bind(this);
+        mRegisterMeterButton.setOnClickListener(this);
+        Detect.setOnClickListener(this);
+        pictureBtn.setOnClickListener(this);
+        logout.setOnClickListener(this);
+        //cropBtn.setOnClickListener(this);
 
-        cameraButton = findViewById(R.id.cameraButton);
-        detectButton = findViewById(R.id.detectButton);
-        imageView = findViewById(R.id.imageView);
+    }
 
-        findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity1.this, DetectorPictureActivity.class)));
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity1.this, AddReadings.class);
+        if(v== mRegisterMeterButton){
 
-        findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity1.this, DetectorPictureActivity.class)));
-        cameraButton.setOnClickListener(v -> startActivity(new Intent(MainActivity1.this, DetectorActivity.class)));
+            number=mCustomerNumber.getText().toString();
+            name=mCustomerName.getText().toString();
+            intent.putExtra("Cus",name);
+            intent.putExtra("num",number);
+            startActivity(intent);
+        }
+
+        if(v== Detect){
+            detectTextFromImage();
+        }
+        if(v== cropBtn){
+            //crop();
+        }
+        if(v == pictureBtn){
+            dispatchTakePictureIntent();
+        }
+
+        if(v == logout){
+            logout();
+        }
+
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(MainActivity1.this, login_form.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 
 
-        detectButton.setOnClickListener(v -> {
-            Handler handler = new Handler();
+    private void dispatchTakePictureIntent() {
+        /*explicit intent to open phone camera*/
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePictureIntent.resolveActivity(getPackageManager())!= null){
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);//key,value
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");//getting the image from the intent
+            imageView.setImageBitmap(imageBitmap);
+        }
+    }
+    private void crop(){
+        Handler handler = new Handler();
 
-            new Thread(() -> {
-                final List<Classifier.Recognition> results = detector.recognizeImage(cropBitmap);
-                handler.post(() -> handleResult(cropBitmap, results));
-            }).start();
-
-        });
-        this.sourceBitmap = Utils.getBitmapFromAsset(MainActivity1.this, "compteur.jpg");
+        new Thread(() -> {
+            final List<Classifier.Recognition> results = detector.recognizeImage(cropBitmap);
+            handler.post(() -> handleResult(cropBitmap, results));
+        }).start();
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        this.sourceBitmap = bitmap;
 
         this.cropBitmap = Utils.processBitmap(sourceBitmap, TF_OD_API_INPUT_SIZE);
 
@@ -64,6 +157,34 @@ public class MainActivity1 extends AppCompatActivity {
         initBox();
     }
 
+    private void detectTextFromImage(){
+        FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
+        FirebaseVisionTextDetector detector =  FirebaseVision.getInstance().getVisionTextDetector();
+
+        detector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+            @Override
+            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                displayTextFromImage(firebaseVisionText);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
+    }
+
+    private void displayTextFromImage(FirebaseVisionText firebaseVisionText){
+        List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
+        if(blockList.size() == 0){
+            Toast.makeText(MainActivity1.this, "No numbers found", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            for(FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
+                String text = block.getText();
+                capturedText.setText(text);
+            }
+        }
+    }
     private static final Logger LOGGER = new Logger();
 
     public static final int TF_OD_API_INPUT_SIZE = 416;
@@ -91,8 +212,8 @@ public class MainActivity1 extends AppCompatActivity {
     private Bitmap sourceBitmap;
     private Bitmap cropBitmap;
 
-    private Button cameraButton, detectButton;
-    private ImageView imageView;
+    private Button cameraButton, detectButton,cropButton;
+    //private ImageView imageView;
 
     private void initBox() {
         previewHeight = TF_OD_API_INPUT_SIZE;
@@ -156,3 +277,4 @@ public class MainActivity1 extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 }
+

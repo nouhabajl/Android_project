@@ -151,7 +151,7 @@ public class YoloV4Classifier implements Classifier {
 
     @Override
     public float getObjThresh() {
-        return MainActivity1.MINIMUM_CONFIDENCE_TF_OD_API;
+        return MainActivity.MINIMUM_CONFIDENCE_TF_OD_API;
     }
 
     private static final Logger LOGGER = new Logger();
