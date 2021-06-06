@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OfflineActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginBottom="33dp"
+        android:background="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:text="YEBNI"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/logout"
+        android:clickable="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        />
+    <View
+        android:id="@+id/wave"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:background="@drawable/ic_wave__1_"
+        android:layout_marginTop="60dp"
+        />
+
+
+    <Button
+        android:id="@+id/button_choose_image"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="215dp"
+        android:layout_marginBottom="11dp"
+        android:text="Gallery"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-59dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <Button
+        android:id="@+id/detectBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="11dp"
+        android:text="detect"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-59dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <EditText
+        android:id="@+id/edit_text_file_name"
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="141dp"
+        android:layout_marginEnd="9dp"
+        android:hint="field name " />
+
+    <EditText
+        android:id="@+id/edit_text_file_name2"
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="193dp"
+        android:layout_marginEnd="9dp"
+        android:hint="Zip code " />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="381dp"
+        android:layout_height="310dp"
+        android:layout_above="@+id/progress_bar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="89dp"
+        android:foreground="?attr/actionBarDivider" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="58dp" />
+
+    <Button
+        android:id="@+id/button_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="310dp"
+        android:layout_marginBottom="11dp"
+        android:text="Upload"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-59dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/light_blue"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/text_view_show_uploads"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="11dp"
+        android:gravity="center"
+        android:text="Show Uploads"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ocr"
+        android:layout_width="223dp"
+        android:layout_height="47dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="86dp"
+        android:gravity="center"
+        android:hint="Meter Number"
+        android:padding="4dp"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+
+    <!--<ImageButton
+        android:id="@+id/CameraBtn"
+        style="@android:style/Widget.DeviceDefault.ImageButton"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_upload"
+        android:layout_alignBottom="@+id/button_upload"
+        android:layout_marginStart="-201dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/button_upload"
+
+        android:background="#FFFFFF"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_action_name"
+        android:text="Camera"
+        android:textSize="16sp" />-->
+
+</RelativeLayout>

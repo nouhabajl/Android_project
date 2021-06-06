@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.imageView);
 
         findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorPictureActivity.class)));
+        findViewById(R.id.offlineDetect).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OfflineActivity.class)));
+
 
         cameraButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorActivity.class)));
         findViewById(R.id.detectButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainActivity1.class)));
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Bitmap sourceBitmap;
     private Bitmap cropBitmap;
 
-    private Button cameraButton, detectButton;
+    private Button cameraButton, detectButton,offlineDetect;
     private ImageView imageView;
 
     private void initBox() {

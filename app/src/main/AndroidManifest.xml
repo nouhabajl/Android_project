@@ -25,21 +25,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ObjectDetection">
-        <activity
-            android:name=".MainActivity1">
+
+        <activity android:name=".OfflineActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar" >
             <meta-data
                 android:name="com.google.mlkit.vision.DEPENDENCIES"
                 android:value="ocr" />
         </activity>
+
+        <activity android:name=".ImagesActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+
+        <activity android:name=".MainActivity1">
+            android:theme="@style/Theme.Design.Light.NoActionBar" >
+            <meta-data
+                android:name="com.google.mlkit.vision.DEPENDENCIES"
+                android:value="ocr" />
+        </activity>
+
         <activity
             android:name=".DetectorActivity"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".DetectorPictureActivity"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".SplashScreen"
             android:theme="@style/Theme.Design.Light.NoActionBar">
@@ -49,16 +62,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".login_form"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
+
         <activity
             android:name=".AddReadings"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+
     </application>
 
 </manifest>

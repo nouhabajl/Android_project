@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="Current units"
+        android:text="Water current units"
         android:fontFamily="@font/nunito_sans_light"
         android:layout_below="@+id/openText"
         android:textSize="20sp"
@@ -60,7 +60,7 @@
         android:layout_marginLeft="20dp"
 
         android:layout_below="@+id/units"
-        android:text="Meter Number"
+        android:text="Consumption meter"
         android:fontFamily="@font/nunito_sans_light"
         android:textColor="@android:color/black"
         android:textSize="20sp"

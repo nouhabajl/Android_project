@@ -42,7 +42,7 @@
     <ImageButton
         android:id="@+id/take_picture"
         style="@android:style/Widget.DeviceDefault.ImageButton"
-        android:layout_width="wrap_content"
+        android:layout_width="46dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_margin="16dp"

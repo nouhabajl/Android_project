@@ -43,7 +43,7 @@
         android:layout_below="@+id/wave"
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/nunito_sans_light"
-        android:text="Customer name"
+        android:text="Field name"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -63,7 +63,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Customer Phone Number"
+        android:text="ZIP code"
         android:textSize="20sp"
         android:fontFamily="@font/nunito_sans_light"
 
@@ -82,35 +82,39 @@
         android:layout_marginRight="20dp"
         android:shadowColor="@color/white"/>
 
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="180dp"
+        android:layout_width="317dp"
+        android:layout_height="194dp"
         android:layout_below="@id/customerNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Picture of Water meter"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="48dp"
+        android:text="Picture of Water meter" />
+
     <TextView
-        android:layout_below="@id/imageView"
+        android:id="@+id/ocr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:id="@+id/ocr"
+        android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:hint="OCR READING"
+        android:layout_marginTop="12dp"
+        android:hint="Meter Number"
+        android:padding="4dp"
         android:textSize="20sp"
         android:textStyle="italic" />
-
 
     <Button
         android:id="@+id/take_picture"
         android:layout_width="129dp"
         android:layout_height="35dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="54dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="104dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:drawableBottom="@drawable/round"
@@ -127,8 +131,8 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="-59dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="49dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="33dp"
         android:layout_toStartOf="@+id/detect"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
@@ -144,8 +148,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="131dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="103dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
@@ -154,18 +158,18 @@
         android:textSize="17sp" />
 
     <Button
-        android:id="@+id/crop"
+        android:id="@+id/history"
         android:layout_width="137dp"
         android:layout_height="37dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="38dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
-        android:text="Yolo"
+        android:text="history"
         android:textColor="@color/white"
         android:textSize="17sp" />
 
