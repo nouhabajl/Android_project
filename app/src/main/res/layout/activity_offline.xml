@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".OfflineActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="33dp"
         android:background="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
@@ -37,7 +39,7 @@
         />
 
 
-    <Button
+    <!--<Button
         android:id="@+id/button_choose_image"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
@@ -53,23 +55,25 @@
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
         android:textColor="@color/white"
-        android:textSize="17sp" />
+        android:textSize="17sp" />-->
+
 
     <Button
-        android:id="@+id/detectBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="38dp"
+        android:id="@+id/objectDetection"
+        android:layout_width="102dp"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="123dp"
-        android:layout_marginBottom="11dp"
-        android:text="detect"
         android:layout_centerVertical="true"
-        android:layout_marginStart="-59dp"
+        android:layout_marginStart="155dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
+        android:text="detect"
         android:textColor="@color/white"
         android:textSize="17sp" />
 
@@ -93,7 +97,7 @@
         android:layout_marginEnd="9dp"
         android:hint="Zip code " />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/image_view"
         android:layout_width="381dp"
         android:layout_height="310dp"
@@ -101,7 +105,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="89dp"
-        android:foreground="?attr/actionBarDivider" />
+        android:foreground="?attr/actionBarDivider" />-->
+
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -111,7 +116,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="6dp"
-        android:layout_marginBottom="58dp" />
+        android:layout_marginBottom="54dp" />
 
     <Button
         android:id="@+id/button_upload"
@@ -119,15 +124,15 @@
         android:layout_height="38dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="310dp"
-        android:layout_marginBottom="11dp"
-        android:text="Upload"
         android:layout_centerVertical="true"
         android:layout_marginStart="-59dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="277dp"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
+        android:text="Upload"
         android:textColor="@color/white"
         android:textSize="17sp" />
 
@@ -137,27 +142,110 @@
         android:layout_height="38dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="23dp"
         android:layout_marginBottom="11dp"
         android:gravity="center"
         android:text="Show Uploads"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/ocr"
-        android:layout_width="223dp"
-        android:layout_height="47dp"
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="411dp"
+        android:layout_above="@+id/progress_bar"
+        android:layout_below="@+id/edit_text_file_name"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="98dp"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="86dp"
-        android:gravity="center"
-        android:hint="Meter Number"
-        android:padding="4dp"
-        android:textSize="20sp"
-        android:textStyle="italic" />
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="OCR Number"
+                        android:textColor="@color/design_default_color_primary"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/resultEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:background="@null"
+                        android:hint=""
+                        android:padding="5dp"
+                        android:textColor="#000" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Image"
+                        android:textColor="@color/design_default_color_primary"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/imageIv"
+                        android:layout_width="359dp"
+                        android:layout_height="271dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!-- <TextView
+         android:id="@+id/ocr"
+         android:layout_width="223dp"
+         android:layout_height="47dp"
+         android:layout_alignParentStart="true"
+         android:layout_alignParentEnd="true"
+         android:layout_alignParentBottom="true"
+         android:layout_marginStart="98dp"
+         android:layout_marginEnd="90dp"
+         android:layout_marginBottom="86dp"
+         android:gravity="center"
+         android:hint="Meter Number"
+         android:padding="4dp"
+         android:textSize="20sp"
+         android:textStyle="italic" />-->
 
     <!--<ImageButton
         android:id="@+id/CameraBtn"

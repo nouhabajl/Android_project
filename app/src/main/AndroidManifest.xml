@@ -19,40 +19,43 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/tfe_od_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.ObjectDetection">
+        android:theme="@style/AppTheme.ObjectDetection"
+        android:allowBackup="true">
 
-        <activity android:name=".OfflineActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
-            <meta-data
-                android:name="com.google.mlkit.vision.DEPENDENCIES"
-                android:value="ocr" />
-        </activity>
-
-        <activity android:name=".ImagesActivity"
+        <activity android:name=".MainActivity3"
             android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
 
-        <activity android:name=".MainActivity1">
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
+        <!--add in application tag-->
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.ImageToTextAppByN"/>
+        <activity
+            android:name=".OfflineActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
             <meta-data
                 android:name="com.google.mlkit.vision.DEPENDENCIES"
                 android:value="ocr" />
         </activity>
-
+        <activity
+            android:name=".ImagesActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity android:name=".MainActivity1">
+            android:theme="@style/Theme.ImageToTextAppByN" >
+            <meta-data
+                android:name="com.google.mlkit.vision.DEPENDENCIES"
+                android:value="ocr" />
+        </activity>
         <activity
             android:name=".DetectorActivity"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".DetectorPictureActivity"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".SplashScreen"
             android:theme="@style/Theme.Design.Light.NoActionBar">
@@ -62,19 +65,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".login_form"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
-
         <activity
             android:name=".AddReadings"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
-
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
-
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
     </application>
 
 </manifest>

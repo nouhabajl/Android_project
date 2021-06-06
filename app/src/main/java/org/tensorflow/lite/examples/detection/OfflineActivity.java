@@ -1,21 +1,27 @@
 package org.tensorflow.lite.examples.detection;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -28,6 +34,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,6 +57,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,20 +68,42 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
     public Bitmap imageBitmap;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int PICK_IMAGE_REQUEST = 1;
-    public static final int CAMERA_REQUEST_CODE = 102;
+    //public static final int CAMERA_REQUEST_CODE = 102;
     public String currentPhotoPath;
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private TextView mTextViewShowUploads, mOcr;
+    private TextView mTextViewShowUploads;
     private EditText mEditTextFileName, mEditTextFileName2;
-    private ImageView mImageView;
     private ProgressBar mProgressBar;
-    private Uri mImageUri;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
-    @BindView(R.id.detectBtn) Button mdetectBtn;
+    //@BindView(R.id.detectBtn) Button mdetectBtn;
     @BindView(R.id.logout) ImageView mlogout;
+    @BindView(R.id.objectDetection) Button mObjectDetection;
+
+
+    //activity3
+    /*EditText mResultEt;
+    ImageView mPreviewIv;*/
+    TextView mOcr;
+    ImageView mImageView;
+
+
+
+
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 400;
+    private static final int IMAGE_PICK_GALLERY_CODE = 1000;
+    private static final int IMAGE_PICK_CAMERA_CODE = 1001;
+
+    String cameraPermission[];
+    String storagePermission[];
+
+    //Uri image_uri;
+    private Uri mImageUri;
+
+
 
 
     @Override
@@ -88,15 +121,16 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         ButterKnife.bind(this);
-        mdetectBtn.setOnClickListener(this);
+        //mdetectBtn.setOnClickListener(this);
         mlogout.setOnClickListener(this);
 
-        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+
+        /*mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
-        });
+        });*/
 
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +148,19 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
                 openImagesActivity();
             }
         });
+        //activity3
+        mOcr = findViewById(R.id.resultEt);
+        mImageView = findViewById(R.id.imageIv);
+
+
+
+        //camera permission
+        cameraPermission = new String[] {android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[] {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        //findViewById(R.id.objectDetection).setOnClickListener(v -> startActivity(new Intent(MainActivity3.this, DetectorActivity.class)));
+        ButterKnife.bind(this);
+        mObjectDetection.setOnClickListener(this);
 
     }
 
@@ -127,7 +174,7 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == CAMERA_PERM_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
@@ -137,7 +184,7 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "Camera permission is required", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -146,7 +193,8 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    @Override
+
+/*  @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,6 +217,7 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
             this.sendBroadcast(mediaScanIntent);
         }
     }
+*/
 
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
@@ -281,8 +330,8 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if(v== mdetectBtn){
-
+        if(v == mObjectDetection){
+            showImageImportDialog();
         }
 
         if(v == mlogout){
@@ -322,5 +371,163 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+    //activit3
+    private void showImageImportDialog() {
+        //items to display in dialog
+        String[] items = {" Camera", " Gallery"};
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        //set title
+        dialog.setTitle("Select Image");
+        dialog.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0 ){
+                    //camera option clicked
+                    if (!checkCameraPermission()) {
+                        //camera permission not allowed, request it
+                        requestCameraPermission();
+                    }
+                    else {
+                        //permission allowed, take picture
+                        pickCamera();
+                    }
+                }
+                if (which == 1 ){
+                    //gallery option clicked
+                    if (!checkStoragePermission()) {
+                        //Storage permission not allowed, request it
+                        requestStoragePermission();
+                    }
+                    else {
+                        //permission allowed, take picture
+                        pickGallery();
+                    }
+                }
+            }
+        });
+        dialog.create().show(); //show dialog
+    }
+
+    private void pickGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        //set intent type to image
+        intent.setType("image/*");
+        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
+    }
+
+    private void pickCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "NewPic"); //title of the picture
+        values.put(MediaStore.Images.Media.DESCRIPTION,"Image To Text"); //Description of the picture
+        mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
+
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE);
+    }
+
+    private boolean checkStoragePermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermission, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
+    }
+
+
+    //handle permission result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted && writeStorageAccepted) {
+                        pickCamera();
+                    } else {
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+
+            case STORAGE_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageAccepted) {
+                        pickGallery();
+                    } else {
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+        }
+    }
+
+    //handle image result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
+                //got image from gallery now crop it
+                CropImage.activity(data.getData()).setGuidelines(CropImageView.Guidelines.ON).start(this);
+            }
+            if (requestCode == IMAGE_PICK_CAMERA_CODE) {
+                //got image from camera now crop it
+                CropImage.activity(mImageUri).setGuidelines(CropImageView.Guidelines.ON).start(this);
+            }
+        }
+        //get cropped image
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri(); //get image uri
+                //set image to image view
+                mImageView.setImageURI(resultUri);
+
+                //get drawable bitmap for text recognition
+                BitmapDrawable bitmapDrawable = (BitmapDrawable)mImageView.getDrawable();
+                Bitmap bitmap  = bitmapDrawable.getBitmap();
+
+                TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+
+                if (!recognizer.isOperational()) {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                    SparseArray<TextBlock> items = recognizer.detect(frame);
+                    StringBuilder sb = new StringBuilder();
+                    //get text from sb until there is no text
+                    for (int i= 0; i<items.size(); i++) {
+                        TextBlock myItem = items.valueAt(i);
+                        sb.append(myItem.getValue());
+                        //sb.append("/n");
+                    }
+                    //set text to  edit text
+                    mOcr.setText(sb.toString());
+                }
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                //if there is any error show it
+                Exception error = result.getError();
+                Toast.makeText(this, ""+error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
