@@ -85,22 +85,26 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="317dp"
-        android:layout_height="194dp"
+        android:layout_width="364dp"
+        android:layout_height="252dp"
         android:layout_below="@id/customerNumber"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="19dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="20dp"
         android:text="Picture of Water meter" />
 
     <TextView
         android:id="@+id/ocr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:layout_marginTop="12dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="602dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="94dp"
         android:hint="Meter Number"
         android:padding="4dp"
         android:textSize="20sp"
@@ -108,32 +112,32 @@
 
     <Button
         android:id="@+id/take_picture"
-        android:layout_width="133dp"
-        android:layout_height="36dp"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="13dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="101dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:drawableBottom="@drawable/round"
         android:fontFamily="@font/nunito_sans_bold"
-        android:text="Picture"
+        android:text="Pick and detect"
         android:textColor="@color/white"
         android:textSize="17dp" />
 
     <Button
         android:id="@+id/register"
-        android:layout_width="204dp"
-        android:layout_height="36dp"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="-59dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="-77dp"
-        android:layout_marginBottom="19dp"
-        android:layout_toStartOf="@+id/detect"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
@@ -141,23 +145,7 @@
         android:textColor="@color/white"
         android:textSize="17sp" />
 
-    <Button
-        android:id="@+id/detect"
-        android:layout_width="137dp"
-        android:layout_height="37dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="26dp"
-        android:layout_marginBottom="103dp"
-        android:background="@drawable/round"
-        android:backgroundTint="@color/light_blue"
-        android:fontFamily="@font/nunito_sans_bold"
-        android:text="Detect"
-        android:textColor="@color/white"
-        android:textSize="17sp" />
-
-   <!-- <Button
+    <!-- <Button
         android:id="@+id/history"
         android:layout_width="137dp"
         android:layout_height="37dp"

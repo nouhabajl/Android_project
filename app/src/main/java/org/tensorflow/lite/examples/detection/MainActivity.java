@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.imageView);
 
         findViewById(R.id.take_picture).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorPictureActivity.class)));
-        findViewById(R.id.offlineDetect).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OfflineActivity.class)));
+        findViewById(R.id.showUploads).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ImagesActivity.class)));
 
 
         cameraButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DetectorActivity.class)));
