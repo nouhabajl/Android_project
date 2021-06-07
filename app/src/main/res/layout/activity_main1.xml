@@ -85,26 +85,24 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="364dp"
-        android:layout_height="252dp"
+        android:layout_width="367dp"
+        android:layout_height="265dp"
         android:layout_below="@id/customerNumber"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="19dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="19dp"
         android:text="Picture of Water meter" />
 
     <TextView
         android:id="@+id/ocr"
-        android:layout_width="wrap_content"
+        android:layout_width="151dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginTop="602dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginTop="606dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginBottom="82dp"
         android:hint="Meter Number"
         android:padding="4dp"
         android:textSize="20sp"
@@ -112,13 +110,13 @@
 
     <Button
         android:id="@+id/take_picture"
-        android:layout_width="173dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="36dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="21dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:drawableBottom="@drawable/round"
@@ -129,15 +127,15 @@
 
     <Button
         android:id="@+id/register"
-        android:layout_width="206dp"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="-59dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="21dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/light_blue"
         android:fontFamily="@font/nunito_sans_bold"
@@ -145,21 +143,27 @@
         android:textColor="@color/white"
         android:textSize="17sp" />
 
-    <!-- <Button
-        android:id="@+id/history"
+    <Button
+        android:id="@+id/detect"
         android:layout_width="137dp"
-        android:layout_height="37dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="38dp"
-        android:background="@drawable/round"
-        android:backgroundTint="@color/light_blue"
-        android:fontFamily="@font/nunito_sans_bold"
-        android:text="history"
-        android:textColor="@color/white"
-        android:textSize="17sp" />-->
+        android:layout_height="0dp"
+        />
+
+    <!-- <Button
+         android:id="@+id/history"
+         android:layout_width="137dp"
+         android:layout_height="37dp"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentBottom="true"
+         android:layout_marginTop="50dp"
+         android:layout_marginRight="24dp"
+         android:layout_marginBottom="38dp"
+         android:background="@drawable/round"
+         android:backgroundTint="@color/light_blue"
+         android:fontFamily="@font/nunito_sans_bold"
+         android:text="history"
+         android:textColor="@color/white"
+         android:textSize="17sp" />-->
 
 
 </RelativeLayout>

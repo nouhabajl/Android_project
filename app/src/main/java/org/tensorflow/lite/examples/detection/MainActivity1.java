@@ -140,7 +140,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         }
 
         /*if(v== Detect){
-            //detectTextFromImage();
+            detectTextFromImage();
         }*/
        /* if(v== historyBtn){
 
