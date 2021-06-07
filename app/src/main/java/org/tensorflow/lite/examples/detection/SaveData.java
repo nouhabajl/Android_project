@@ -2,26 +2,28 @@ package org.tensorflow.lite.examples.detection;
 
 public  class SaveData {
 
-    String customerName;
+
+    String FieldName;
     String Date;
     int VolumeConsumed;
-    int phoneNumber;
+    int ZipCode;
     double Longitude;
     double Latitude;
     String MeterNumber;
     
-    public SaveData(String customerName, String Date, int phoneNumber, int Volume, double Longitude, double Latitude,String MeterNumber) {
-        this.customerName = customerName;
+    public SaveData(String FieldName, String Date, int ZipCode, int Volume, double Longitude, double Latitude,String MeterNumber) {
+        this.FieldName = FieldName;
         this.Date = Date;
-        this.phoneNumber = phoneNumber;
+        this.ZipCode = ZipCode;
         this.VolumeConsumed = Volume;
         this.Latitude = Latitude;
         this.Longitude = Longitude;
         this.MeterNumber = MeterNumber;
+
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getFieldName() {
+        return FieldName;
     }
 
     public int getVolumeConsumed() {
@@ -32,8 +34,8 @@ public  class SaveData {
         return Date;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
+    public int getZipCode() {
+        return ZipCode;
     }
 
     public double getLongitude() {
@@ -47,4 +49,5 @@ public  class SaveData {
     public String getMeterNumber() {
         return MeterNumber;
     }
+
 }

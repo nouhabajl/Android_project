@@ -59,8 +59,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity1 extends AppCompatActivity implements View.OnClickListener{
 
-    public  String name, number;
-    public  int ocrRead;
+    public  String name, number,ocrRead;
+    //public  int ocrRead;
     public Bitmap imageBitmap;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @BindView(R.id.register) Button mRegisterMeterButton;
@@ -71,7 +71,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.imageView) ImageView imageView;
     @BindView(R.id.take_picture)Button pictureBtn;
     @BindView(R.id.logout) ImageView logout;
-    @BindView(R.id.history) Button historyBtn;
+    //@BindView(R.id.history) Button historyBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
             number=mCustomerNumber.getText().toString();
             name=mCustomerName.getText().toString();
+            ocrRead=capturedText.getText().toString();
             intent.putExtra("Cus",name);
+            intent.putExtra("ocrtext",ocrRead);
             intent.putExtra("num",number);
             startActivity(intent);
         }
@@ -100,9 +102,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         if(v== Detect){
             detectTextFromImage();
         }
-        if(v== historyBtn){
+       /* if(v== historyBtn){
 
-        }
+        }*/
         if(v == pictureBtn){
             dispatchTakePictureIntent();
         }

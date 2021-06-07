@@ -14,6 +14,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +50,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -59,6 +65,14 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.tensorflow.lite.examples.detection.customview.OverlayView;
+import org.tensorflow.lite.examples.detection.env.ImageUtils;
+import org.tensorflow.lite.examples.detection.env.Logger;
+import org.tensorflow.lite.examples.detection.env.Utils;
+import org.tensorflow.lite.examples.detection.tflite.Classifier;
+import org.tensorflow.lite.examples.detection.tflite.YoloV4Classifier;
+import org.tensorflow.lite.examples.detection.tracking.MultiBoxTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,8 +104,6 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
     ImageView mImageView;
 
 
-
-
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
@@ -101,7 +113,7 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
     String storagePermission[];
 
     //Uri image_uri;
-    private Uri mImageUri;
+     Uri mImageUri;
 
 
 
@@ -110,18 +122,17 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline);
-        mButtonChooseImage = findViewById(R.id.button_choose_image);
+        //mButtonChooseImage = findViewById(R.id.button_choose_image);
         mButtonUpload = findViewById(R.id.button_upload);
         mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
         mEditTextFileName2 = findViewById(R.id.edit_text_file_name2);
-        mOcr = findViewById(R.id.ocr);
-        mImageView = findViewById(R.id.image_view);
+        //mOcr = findViewById(R.id.ocr);
+        //mImageView = findViewById(R.id.imageIv);
         mProgressBar = findViewById(R.id.progress_bar);
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         ButterKnife.bind(this);
-        //mdetectBtn.setOnClickListener(this);
         mlogout.setOnClickListener(this);
 
 
@@ -482,8 +493,27 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            Picasso.with(this).load(mImageUri).into(mImageView);
+        }
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            //Bitmap image = (Bitmap) data.getExtras().get("data");
+            //saveImage(image,"storageDir");
+            //mImageView.setImageBitmap(image);
+            File f = new File(currentPhotoPath);
+            mImageView.setImageURI(Uri.fromFile(f));
+            Log.d("tag","Absolute url of image is " + Uri.fromFile(f));
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(f);
+            mediaScanIntent.setData(contentUri);
+            this.sendBroadcast(mediaScanIntent);
+        }*/
         if (resultCode == RESULT_OK) {
-            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE && data != null && data.getData() != null) {
+                mImageUri = data.getData();
+                Picasso.with(this).load(mImageUri).into(mImageView);
                 //got image from gallery now crop it
                 CropImage.activity(data.getData()).setGuidelines(CropImageView.Guidelines.ON).start(this);
             }
@@ -530,4 +560,99 @@ public class OfflineActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
+    public static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+
+    private static final Logger LOGGER = new Logger();
+
+    public static final int TF_OD_API_INPUT_SIZE = 416;
+
+    private static final boolean TF_OD_API_IS_QUANTIZED = false;
+
+    private static final String TF_OD_API_MODEL_FILE = "yolov4-tiny-416.tflite";
+
+    private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/darknet_labels.txt";
+
+    // Minimum detection confidence to track a detection.
+    private static final boolean MAINTAIN_ASPECT = false;
+    private Integer sensorOrientation = 90;
+
+    private Classifier detector;
+
+    private Matrix frameToCropTransform;
+    private Matrix cropToFrameTransform;
+    private MultiBoxTracker tracker;
+    private OverlayView trackingOverlay;
+
+    protected int previewWidth = 0;
+    protected int previewHeight = 0;
+
+    private Bitmap sourceBitmap;
+    private Bitmap cropBitmap;
+
+    private Button cameraButton, detectButton,offlineDetect;
+    private ImageView imageView;
+
+    private void initBox() {
+        previewHeight = TF_OD_API_INPUT_SIZE;
+        previewWidth = TF_OD_API_INPUT_SIZE;
+        frameToCropTransform =
+                ImageUtils.getTransformationMatrix(
+                        previewWidth, previewHeight,
+                        TF_OD_API_INPUT_SIZE, TF_OD_API_INPUT_SIZE,
+                        sensorOrientation, MAINTAIN_ASPECT);
+
+        cropToFrameTransform = new Matrix();
+        frameToCropTransform.invert(cropToFrameTransform);
+
+        tracker = new MultiBoxTracker(this);
+        trackingOverlay = findViewById(R.id.tracking_overlay);
+        trackingOverlay.addCallback(
+                canvas -> tracker.draw(canvas));
+
+        tracker.setFrameConfiguration(TF_OD_API_INPUT_SIZE, TF_OD_API_INPUT_SIZE, sensorOrientation);
+
+        try {
+            detector =
+                    YoloV4Classifier.create(
+                            getAssets(),
+                            TF_OD_API_MODEL_FILE,
+                            TF_OD_API_LABELS_FILE,
+                            TF_OD_API_IS_QUANTIZED);
+        } catch (final IOException e) {
+            e.printStackTrace();
+            LOGGER.e(e, "Exception initializing classifier!");
+            Toast toast =
+                    Toast.makeText(
+                            getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
+            toast.show();
+            finish();
+        }
+    }
+
+    private void handleResult(Bitmap bitmap, List<Classifier.Recognition> results) {
+        final Canvas canvas = new Canvas(bitmap);
+        final Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2.0f);
+
+        final List<Classifier.Recognition> mappedRecognitions =
+                new LinkedList<Classifier.Recognition>();
+
+        for (final Classifier.Recognition result : results) {
+            final RectF location = result.getLocation();
+            if (location != null && result.getConfidence() >= MINIMUM_CONFIDENCE_TF_OD_API) {
+                canvas.drawRect(location, paint);
+//                cropToFrameTransform.mapRect(location);
+//
+//                result.setLocation(location);
+//                mappedRecognitions.add(result);
+            }
+        }
+//        tracker.trackResults(mappedRecognitions, new Random().nextInt());
+//        trackingOverlay.postInvalidate();
+        mImageView.setImageBitmap(bitmap);
+    }
+
 }
